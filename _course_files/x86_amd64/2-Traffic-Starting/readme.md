@@ -38,7 +38,7 @@
 -- we reverted te image , now we will deploy newer version using canary deployment 
 
 --- now implement canary using normal kubernetes by adding 1 more deployment yaml file like below :
-
+NOTE : PROVING VERSION LABELS TO PODS IS VERY IMPORTANT ELSE WEIGHTING ROUTING WIL NT B VISIBLE IN KIALI :
 
 ---
 apiVersion: apps/v1
@@ -99,5 +99,16 @@ spec:
   --- it will create a virtual service and a destination rule ....
 
 
+--- also u can try to curl from a terminal : try to weight trafffic eitherway :
+
+    while true; do curl http://54.207.21.17:30080/api/vehicles/driver/City%20Truck;echo ;sleep 0.5; done
+
+
+k get vs
+
+ k get vs fleetman-staff-service -o yaml
+
+
+---
 
 ```
