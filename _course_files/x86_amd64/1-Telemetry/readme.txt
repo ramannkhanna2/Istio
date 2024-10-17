@@ -14,3 +14,7 @@
   -- open jaeger ui , select webapp default service >> select custom time range >> starting from time now to next day ...
   --- browse the application to collect traces on jagger 
   --- check for traces and spans for http request travel among diff microservices .
+
+
+
+--- using Grafana to monitor ...
