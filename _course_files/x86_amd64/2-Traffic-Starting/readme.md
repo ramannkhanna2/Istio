@@ -27,12 +27,15 @@
   193  k get pods
 
 
+
+"Introducing Canaries"
+
 -- now ,make changes in the application : 5-application-no-istio.yaml
 -- in staff-service deployment , change image to :
    -- image: richardchesterwood/istio-fleetman-staff-service:6-placeholder
 
 
-
+-- we reverted te image , now we will deploy newer version using canary deployment 
 
 
 
