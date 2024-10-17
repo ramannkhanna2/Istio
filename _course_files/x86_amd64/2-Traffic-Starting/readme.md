@@ -173,6 +173,46 @@ https://istio.io/latest/docs/reference/config/networking/destination-rule/
 
 k delete -f 6-istiorules.yaml
 
+
+-- vi 7-istiorules-stickiness.yaml :
+
+
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: fleetman-staff-virtual-service
+  namespace: default
+spec:
+  hosts:
+  - fleetman-staff-service.default.svc.cluster.local
+  http:
+  - route:
+    - destination:
+        host: fleetman-staff-service
+        subset: all-staff-service-pods
+---
+kind: DestinationRule
+apiVersion: networking.istio.io/v1alpha3
+metadata:
+  name: fleetman-staff-destination-rule
+  namespace: default
+spec:
+  host: fleetman-staff-service.default.svc.cluster.local
+  trafficPolicy: 
+    loadBalancer:
+      consistentHash:
+        useSourceIp: true
+# https://istio.io/latest/docs/reference/config/networking/destination-rule/
+
+  subsets:
+    - labels:
+        app: staff-service
+      name: all-staff-service-pods
+
+
+
+
+
 k apply -f 7-istiorules-stickiness.yaml
 
 ---- check if stickiness has been applied or not 
