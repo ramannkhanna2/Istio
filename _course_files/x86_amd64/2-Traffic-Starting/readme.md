@@ -37,6 +37,64 @@
 
 -- we reverted te image , now we will deploy newer version using canary deployment 
 
+--- now implement canary using normal kubernetes by adding 1 more deployment yaml file like below :
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: staff-service-safe-version
+spec:
+  selector:
+    matchLabels:
+      app: staff-service
+  replicas: 1
+  template: # template for the pods
+    metadata:
+      labels:
+        app: staff-service
+    spec:
+      containers:
+      - name: staff-service
+        image: richardchesterwood/istio-fleetman-staff-service:6-placeholder
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: production-microservice
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: staff-service-risky-version
+spec:
+  selector:
+    matchLabels:
+      app: staff-service
+  replicas: 1
+  template: # template for the pods
+    metadata:
+      labels:
+        app: staff-service
+    spec:
+      containers:
+      - name: staff-service
+        image: richardchesterwood/istio-fleetman-staff-service:6
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: production-microservice
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+---
+
+---- traffic will now split 50:50 ..... observe in kiali in workload graph ... and also u can ovserved in app itself...
+
+--- to effectively do it using istio : lets say i wanna send 1 % traffoic to risky version evern if im having less no of pods ..
+ -- go to kiali -- go to fleetman-staff-service  >> actions >>> Create Weighted Routing :
+  --- it will create a virtual service and a destination rule ....
 
 
 
