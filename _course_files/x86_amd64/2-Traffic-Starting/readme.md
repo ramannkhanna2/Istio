@@ -109,6 +109,58 @@ k get vs
  k get vs fleetman-staff-service -o yaml
 
 
+----- now on kiali go ahead and actions >>  deleteall traffic rules ..
+
+----- create a new file 6-istiorules.yaml :
+
+vi 6-istiorules.yaml
+
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: fleetman-staff-service
+  namespace: default
+spec:
+  hosts:
+  - fleetman-staff-service.default.svc.cluster.local
+  http:
+  - route:
+    - destination:
+        host: fleetman-staff-service
+        subset: safe
+      weight: 0
+    - destination:
+        host: fleetman-staff-service
+        subset: risky
+      weight: 100
+---
+kind: DestinationRule
+apiVersion: networking.istio.io/v1alpha3
+metadata:
+  name: fleetman-staff-service
+  namespace: default
+spec:
+  host: fleetman-staff-service.default.svc.cluster.local
+  subsets:
+    - labels:
+        version: safe
+      name: safe
+    - labels:
+        version: risky
+      name: risky
+
+
+
+
+------ now apply 6-istiorules.yaml
+
+
+
+
+
+
+
+
 ---
 
 ```
