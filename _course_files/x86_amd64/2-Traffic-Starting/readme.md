@@ -122,7 +122,7 @@ vi 6-istiorules.yaml
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: fleetman-staff-service
+  name: fleetman-staff-virtual-service
   namespace: default
 spec:
   hosts:
@@ -131,27 +131,27 @@ spec:
   - route:
     - destination:
         host: fleetman-staff-service
-        subset: safe
+        subset: safe-group
       weight: 0
     - destination:
         host: fleetman-staff-service
-        subset: risky
+        subset: risky-group
       weight: 100
 ---
 kind: DestinationRule
 apiVersion: networking.istio.io/v1alpha3
 metadata:
-  name: fleetman-staff-service
+  name: fleetman-staff-destination-rule
   namespace: default
 spec:
   host: fleetman-staff-service.default.svc.cluster.local
   subsets:
     - labels:
         version: safe
-      name: safe
+      name: safe-group
     - labels:
         version: risky
-      name: risky
+      name: risky-group
 
 
 
@@ -217,7 +217,7 @@ k apply -f 7-istiorules-stickiness.yaml
 
 ---- check if stickiness has been applied or not 
 
-
+===================================
 
 ---
 
