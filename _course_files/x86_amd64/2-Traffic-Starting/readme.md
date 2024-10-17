@@ -159,9 +159,23 @@ spec:
 ------ now apply 6-istiorules.yaml
 
 
+
+
+
+
+
 ==============================================
 
 
+STICKINESS :
+https://istio.io/latest/docs/reference/config/networking/destination-rule/
+
+
+k delete -f 6-istiorules.yaml
+
+k apply -f 7-istiorules-stickiness.yaml
+
+---- check if stickiness has been applied or not 
 
 
 
