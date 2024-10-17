@@ -44,7 +44,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: staff-service-safe-version
+  name: staff-service
 spec:
   selector:
     matchLabels:
@@ -54,6 +54,7 @@ spec:
     metadata:
       labels:
         app: staff-service
+        version: safe
     spec:
       containers:
       - name: staff-service
@@ -78,6 +79,7 @@ spec:
     metadata:
       labels:
         app: staff-service
+        version: risky
     spec:
       containers:
       - name: staff-service
