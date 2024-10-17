@@ -1,4 +1,8 @@
 ```
+TRAFFIC MANAGEMENT :
+
+
+
  cd Istio/
   169  ls
   170  cd _course_files/
@@ -155,7 +159,7 @@ spec:
 ------ now apply 6-istiorules.yaml
 
 
-
+==============================================
 
 
 
