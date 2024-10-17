@@ -1,0 +1,33 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: fleetman-staff-virtual-service
+  namespace: default
+spec:
+  hosts:
+  - fleetman-staff-service.default.svc.cluster.local
+  http:
+  - route:
+    - destination:
+        host: fleetman-staff-service
+        subset: safe-group
+      weight: 0
+    - destination:
+        host: fleetman-staff-service
+        subset: risky-group
+      weight: 100
+---
+kind: DestinationRule
+apiVersion: networking.istio.io/v1alpha3
+metadata:
+  name: fleetman-staff-destination-rule
+  namespace: default
+spec:
+  host: fleetman-staff-service.default.svc.cluster.local
+  subsets:
+    - labels:
+        version: safe
+      name: safe-group
+    - labels:
+        version: risky
+      name: risky-group
